@@ -1,7 +1,19 @@
-/*
-create variable for computer choice;
-set 3 possible choices for the computer: Rock, Paper, Scissors;
-give player (User) 3 options to choose as well: Rock, Paper, Scissors;
+
+/* set 3 possible choices for computer: Rock, Paper, Scissors; */
+computerChoicePool = [
+    "Rock", "Paper", "Scissors"
+    ]
+
+/* create variable for computer choice; */
+function getComputerChoice() {
+    var ComputerSelection = Math.floor(Math.random() * computerChoicePool.length);
+    return computerChoicePool[ComputerSelection];
+    }
+
+getComputerChoice(computerChoicePool)
+console.log (getComputerChoice(computerChoicePool))
+
+/* give player (User) 3 options to choose as well: Rock, Paper, Scissors;
 check for equality;
 If equal => Tie
 If not equal check values:
