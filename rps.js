@@ -1,20 +1,6 @@
-
 game();
-//set 3 possible choices for computer: Rock, Paper, Scissors;
 
-//Ask User for Input (Rock / Paper / Scissors
-//Make Input case Insensitive 
-
-//Run getComputerChoice and compare it to UserChoice 
-//Declare winner in a return statement according to outcome of comparison
-
-//create game Counter with 2 Variables (Player; Computer)
-    //Everytime Player wins increment 'Player' +1
-    //Everytime Computer wins, increment 'Computer' +1
-    //Everytime it's a tie, the numbers stay the same
-
-    
-//Add 'game - Function'
+//plays 5 rounds of RPS and declares a Winner
 function game () {
     var playerCount = 0
     var computerCount = 0
@@ -24,11 +10,13 @@ for (let gameRound = 1; gameRound <= 5; gameRound++) {
 
     computerChoicePool = ["Rock", "Paper", "Scissors"] 
 
+//get PlayerInput + make case-insensitive
     var getPlayerChoice = prompt("Choose 'Rock', 'Paper' or 'Scissors' ");
-    let PlayerSelection = getPlayerChoice.charAt(0).toUpperCase() + getPlayerChoice.slice(1).toLowerCase();
+    var PlayerSelection = getPlayerChoice.charAt(0).toUpperCase() + getPlayerChoice.slice(1).toLowerCase();
 
     let ComputerSelection = (getComputerChoice());
 
+//play a single round of RPS
     function playRound () {
         if (PlayerSelection === "Rock" && ComputerSelection === "Scissors" 
         || PlayerSelection === "Paper" && ComputerSelection === "Rock" 
@@ -44,20 +32,15 @@ for (let gameRound = 1; gameRound <= 5; gameRound++) {
             return Tie() + stats();
         }
     }
-
-
-
     console.log(playRound(PlayerSelection, ComputerSelection));
 
-
-    
     //create variable for computer choice
     function getComputerChoice() {
         var ComputerChoice = Math.floor(Math.random() * computerChoicePool.length);
         return computerChoicePool[ComputerChoice];
         }
     
-        //Create a function for Won and Lost and a function for Tie
+        //Create  messages for Won, Lost and Tie
         function Won() {
             return ("You Won! " + PlayerSelection +  " beats " + ComputerSelection + "!   "); 
         }
@@ -71,4 +54,28 @@ for (let gameRound = 1; gameRound <= 5; gameRound++) {
             return (" Player: " + playerCount + "   |  Computer: " + computerCount);
         }
     }
+
+//function to call final Winner
+    function finalScore() {
+        if (playerCount > computerCount) {
+            return gameWon();
+        } else if (playerCount < computerCount) {
+            return gameLost();
+        } else {
+            return gameTie();
+        }
+    }
+
+//create messages for final outcome
+    function gameWon() {
+            return ("Congratulations! You Won the game " + playerCount + ":" + computerCount + "!");
+        }
+    function gameLost() {
+            return ("You lost the game! " + playerCount + ":" + computerCount + " Better luck next time!");
+        }
+    function gameTie() {
+            return ("It's a Tie! But at least you are as good as the Computer!");
+        } 
+
+console.log(finalScore());
 }
