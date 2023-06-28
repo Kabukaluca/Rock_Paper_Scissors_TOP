@@ -1,81 +1,109 @@
-game();
+// Global variables
+let playerCount = 0;
+let computerCount = 0;
+let roundCount = 0;
 
-//plays 5 rounds of RPS and declares a Winner
-function game () {
-    var playerCount = 0
-    var computerCount = 0
+// DOM elements
+const resultContainer = document.querySelector("#resultContainer");
+const resultText = document.createElement("p");
+resultContainer.appendChild(resultText);
 
-for (let gameRound = 1; gameRound <= 5; gameRound++) {
-    console.log("Round: " + gameRound)
+// Button event listeners
+const rckBtn = document.querySelector("#btn-rock");
+rckBtn.addEventListener("click", () => playRound("Rock"));
 
-    computerChoicePool = ["Rock", "Paper", "Scissors"] 
+const pprBtn = document.querySelector("#btn-paper");
+pprBtn.addEventListener("click", () => playRound("Paper"));
 
-//get PlayerInput + make case-insensitive
-    var getPlayerChoice = prompt("Choose 'Rock', 'Paper' or 'Scissors' ");
-    var PlayerSelection = getPlayerChoice.charAt(0).toUpperCase() + getPlayerChoice.slice(1).toLowerCase();
+const srsBtn = document.querySelector("#btn-scissors");
+srsBtn.addEventListener("click", () => playRound("Scissors"));
 
-    let ComputerSelection = (getComputerChoice());
+// Play a single round of RPS
+function playRound(playerSelection) {
+  roundCount++;
+  const computerSelection = getComputerChoice();
+  const outcome = getRoundOutcome(playerSelection, computerSelection);
 
-//play a single round of RPS
-    function playRound () {
-        if (PlayerSelection === "Rock" && ComputerSelection === "Scissors" 
-        || PlayerSelection === "Paper" && ComputerSelection === "Rock" 
-        || PlayerSelection === "Scissors" && ComputerSelection === "Paper") {
-            ++playerCount; 
-            return Won() + stats(); 
-        } else if (PlayerSelection === "Rock" && ComputerSelection === "Paper"
-        || PlayerSelection === "Paper" && ComputerSelection === "Scissors"
-        || PlayerSelection === "Scissors" && ComputerSelection === "Rock") {
-            ++computerCount;
-            return Lost() + stats();
-        } else if (PlayerSelection === ComputerSelection) {
-            return Tie() + stats();
-        }
-    }
-    console.log(playRound(PlayerSelection, ComputerSelection));
+  if (outcome === "win") {
+    playerCount++;
+    displayResult(`You Won! ${playerSelection} beats ${computerSelection}!`);
+  } else if (outcome === "loss") {
+    computerCount++;
+    displayResult(`You Lost! ${computerSelection} beats ${playerSelection}!`);
+  } else {
+    displayResult(`It's a Tie! ${playerSelection} and ${computerSelection} are equal.`);
+  }
 
-    //create variable for computer choice
-    function getComputerChoice() {
-        var ComputerChoice = Math.floor(Math.random() * computerChoicePool.length);
-        return computerChoicePool[ComputerChoice];
-        }
-    
-        //Create  messages for Won, Lost and Tie
-        function Won() {
-            return ("You Won! " + PlayerSelection +  " beats " + ComputerSelection + "!   "); 
-        }
-        function Lost() {
-            return ("You Lost! " + ComputerSelection + " beats " + PlayerSelection + "!   ")
-        }
-        function Tie() {
-            return ("It's a Tie! " + PlayerSelection + " and " + ComputerSelection + " are equal.   ");
-        }
-        function stats(){
-            return (" Player: " + playerCount + "   |  Computer: " + computerCount);
-        }
-    }
+  if (playerCount === 5 || computerCount === 5) {
+    displayResult(declareFinalScore(), "finalMessage");
+    roundCount = 0;
+    playerCount = 0;
+    computerCount = 0;
+  }
 
-//function to call final Winner
-    function finalScore() {
-        if (playerCount > computerCount) {
-            return gameWon();
-        } else if (playerCount < computerCount) {
-            return gameLost();
-        } else {
-            return gameTie();
-        }
-    }
-
-//create messages for final outcome
-    function gameWon() {
-            return ("Congratulations! You Won the game " + playerCount + ":" + computerCount + "!");
-        }
-    function gameLost() {
-            return ("You lost the game! " + playerCount + ":" + computerCount + " Better luck next time!");
-        }
-    function gameTie() {
-            return ("It's a Tie! But at least you are as good as the Computer!");
-        } 
-
-console.log(finalScore());
+  displayPlayerScore();
+  displayComputerScore();
 }
+
+// Get computer choice
+function getComputerChoice() {
+  const computerChoicePool = ["Rock", "Paper", "Scissors"];
+  const randomIndex = Math.floor(Math.random() * computerChoicePool.length);
+  return computerChoicePool[randomIndex];
+}
+
+// Get round outcome
+function getRoundOutcome(playerSelection, computerSelection) {
+  if (
+    (playerSelection === "Rock" && computerSelection === "Scissors") ||
+    (playerSelection === "Paper" && computerSelection === "Rock") ||
+    (playerSelection === "Scissors" && computerSelection === "Paper")
+  ) {
+    return "win";
+  } else if (
+    (playerSelection === "Rock" && computerSelection === "Paper") ||
+    (playerSelection === "Paper" && computerSelection === "Scissors") ||
+    (playerSelection === "Scissors" && computerSelection === "Rock")
+  ) {
+    return "loss";
+  } else {
+    return "tie";
+  }
+}
+
+// Display outome message
+function displayResult(message, outcome) {
+  resultText.innerHTML = message;
+  resultText.className = outcome;
+  displayPlayerScore();
+  displayComputerScore();
+}
+
+// Display scores
+function displayPlayerScore() {
+    let playerScoreBox = document.querySelector("#player-score");
+    playerScoreBox.textContent = statsPlayer();
+}
+
+function displayComputerScore() {
+    let computerScoreBox = document.querySelector("#computer-score")
+    computerScoreBox.textContent = statsComputer();
+}
+
+// Get game statistics
+function statsPlayer() {return `${playerCount}`}
+function statsComputer() {return `${computerCount}`}
+
+// Declare final score
+const declareFinalScore = () =>
+  playerCount > computerCount ? wonGame() : playerCount < computerCount ? lostGame() : tieGame();
+
+// Final outcome messages
+const wonGame = () => `Congratulations! You Won the game<br>`;
+const lostGame = () => `You lost the game! Better luck next time!<br>`;
+const tieGame = () => `It's a Tie! At least as good as the machine!<br>`;
+
+// Add CSS classes
+rckBtn.classList.add("buttons");
+pprBtn.classList.add("buttons");
+srsBtn.classList.add("buttons");

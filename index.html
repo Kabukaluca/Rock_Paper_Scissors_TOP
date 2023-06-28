@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<script src="rps.js"></script>
+<script src="rps.js" defer></script>
+<link rel="stylesheet" href="styles.css">
 <html lang="en">
     <head>
         <title>Rock Paper Scissors</title>
     </head>
 
     <body>
+        <h1 class="h1">Rock - Paper - Scissors</h1>
+        <h2 class="h2">Choose your Weapon!</h2> 
+        <div class="container">
+            <div class="playerContainer">
+            <div class="label">You</div>
+            <div id="player-score" class="score">0</div>
+            </div>
+            <div>
+                <div class="buttonContainer">
+                    <button id="btn-rock" style="--clr:white"><img src="rock.png" alt="Rock"></button>
+                    <button id="btn-paper" style="--clr:blue"><img src="paper.png" alt="Paper"></button>
+                    <button id="btn-scissors" style="--clr:rgb(0, 191, 255)"><img src="scissors.png" alt="Scissors"></button>
+                </div>
 
+                <div class="output">
+                    <div id="resultContainer"></div>
+                </div>
+            </div>
+            <div class="compContainer">
+                <div class="label">Computer</div>
+                <div id="computer-score" class="score">0</div>
+            </div>
+        </div>
     </body>
 </html>
