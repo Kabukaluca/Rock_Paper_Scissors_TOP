@@ -114,3 +114,23 @@ body {
     text-align: center;
     align-items: center;
 }
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: fantasy;
+}
+
+.createdBy {
+    font-size: 14px;
+    margin-bottom: -20px;
+}
+
+.Kabukaluca {
+    font-size: 24px;
+}
